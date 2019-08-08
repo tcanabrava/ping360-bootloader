@@ -1,0 +1,7 @@
+[submodule "lib/libcintelhex"]
+	path = lib/libcintelhex
+	url = https://github.com/martin-helmich/libcintelhex
+[submodule "lib/ping-cpp"]
+	path = lib/ping-cpp
+	url = https://github.com/bluerobotics/ping-cpp
+	branch = deployment
