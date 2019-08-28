@@ -29,8 +29,15 @@ add_executable(ping360-bootloader
   ${PROJECT_SOURCE_DIR}/src/main.c
 )
 
+add_executable(ping360-compare
+  ${LIBCIHEX_SRC}
+  ${COMMON_SRC}
+  ${PROJECT_SOURCE_DIR}/src/compare.c
+)
+
 add_custom_target(setup-cintelhex
   cd ${PROJECT_SOURCE_DIR} && ./tools/setup-cintelhex.sh
 )
 
 add_dependencies(ping360-bootloader setup-cintelhex)
+add_dependencies(ping360-compare setup-cintelhex)
