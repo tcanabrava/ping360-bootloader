@@ -87,19 +87,42 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  uint8_t zeros[PACKET_ROW_LENGTH];
+  memset(zeros, 0xff, sizeof(zeros));
+  const uint32_t bootAddress = 0x1000;
+  printf("\nwipe boot address 0x%08x...", bootAddress);
+  if (bl_write_program_memory(zeros, bootAddress)) {
+    printf("ok\n");
+  } else {
+    printf("error\n");
+    return 1;
+  }
+
   printf("\nwriting application...\n");
   for (int i = 0; i < 86; i++) {
     if (i >= 1 && i <= 3) {
       continue; // protected boot code
     }
+    if (i == 4) {
+      continue; // we write this page last, to prevent booting after failed programming
+    }
+
     printf("write 0x%08x: ", i * 0x400);
 
     if (bl_write_program_memory(pic_hex_application_data + i * PACKET_ROW_LENGTH, i * 0x400)) {
       printf("ok\n");
     } else {
       printf("error\n");
-      return 1;
+      //return 1;
     }
+  }
+
+  printf("\nwrite boot address 0x%08x...", bootAddress);
+  if (bl_write_program_memory(pic_hex_application_data + 4*PACKET_ROW_LENGTH, bootAddress)) {
+    printf("ok\n");
+  } else {
+    printf("error\n");
+    return 1;
   }
 
   printf("\nverifying application...\n");
