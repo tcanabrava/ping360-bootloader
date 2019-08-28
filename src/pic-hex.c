@@ -2,6 +2,7 @@
 
 #include <cintelhex.h>
 #include <stdio.h>
+#include <string.h>
 
 bool pic_hex_extract_application(const char *filename) {
   ihex_recordset_t *record_set = ihex_rs_from_file(filename);
@@ -49,7 +50,7 @@ bool pic_hex_mem_cpy(ihex_recordset_t *record_set, uint8_t *destination, uint32_
   ihex_record_t *record;
 
   // zero-initialize destination data
-  ihex_mem_zero(destination, length);
+  memset(destination, 0, length);
 
   do {
     int r = ihex_rs_iterate_data(record_set, &i, &record, &record_offset);

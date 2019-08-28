@@ -10,8 +10,9 @@ include_directories(
   ${PROJECT_SOURCE_DIR}/src/inc
 )
 
-file(GLOB LIBCIHEX_SRC
-  ${PROJECT_SOURCE_DIR}/lib/libcintelhex/src/*.c
+set(LIBCIHEX_SRC
+  ${PROJECT_SOURCE_DIR}/lib/libcintelhex/src/ihex_parse.c
+  ${PROJECT_SOURCE_DIR}/lib/libcintelhex/src/ihex_record.c
 )
 
 set(COMMON_SRC
