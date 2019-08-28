@@ -143,8 +143,11 @@ int main(int argc, char *argv[]) {
           return 1;
         }
       }
+      printf("ok\n");
+    } else {
+      printf("error\n");
+      return 1;
     }
-    printf("ok\n");
   }
 
   printf("\nwriting configuration...");
