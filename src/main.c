@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
       printf("ok\n");
     } else {
       printf("error\n");
-      //return 1;
+      return 1;
     }
   }
 
