@@ -8,9 +8,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#define BL_TIMEOUT_DEFAULT_US 50000
+#define BL_TIMEOUT_DEFAULT_US 75000
 #define BL_TIMEOUT_WRITE_US 500000
-#define BL_TIMEOUT_READ_US 200000
+#define BL_TIMEOUT_READ_US 500000
 
 static packet_parser_t bl_parser;
 
