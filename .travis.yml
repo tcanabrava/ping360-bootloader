@@ -3,6 +3,7 @@ dist: xenial
 language: minimal
 
 script:
+  - tools/install-arm-toolchain.sh
   - tools/build-ping360-bootloader.sh || travis_terminate 1
 
 before_deploy:
@@ -13,7 +14,9 @@ before_deploy:
 deploy:
   provider: releases
   api_key: ${GITHUB_TOKEN}
-  file: build/ping360-bootloader
+  file:
+    - build/ping360-bootloader
+    - build/ping360-bootloader-rpi
   overwrite: true
   skip_cleanup: true
   on:
