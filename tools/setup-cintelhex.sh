@@ -2,5 +2,5 @@
 
 cd lib/libcintelhex
 autoreconf -i
-./configure
+./configure $@
 cd ../..
