@@ -10,7 +10,7 @@
 const uint16_t expectedDeviceId    = 0x062f;
 const uint8_t expectedVersionMajor = 2;
 const uint8_t expectedVersionMinor = 1;
-const uint8_t expectedVersionPatch = 1;
+const uint8_t expectedVersionPatch = 2;
 
 int main(int argc, char *argv[]) {
   printf(" ~* ping360-bootloader *~\n");
