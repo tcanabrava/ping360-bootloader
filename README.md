@@ -32,4 +32,4 @@ To use `ping360-bootloader` on a device that is already running firmware:
 
 To use `ping360-compare`:
 
-`ping360-compare /dev/ttyUSB0 /path/to/firmware.hex'
+`ping360-compare /dev/ttyUSB0 /path/to/firmware.hex`
