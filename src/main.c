@@ -15,36 +15,40 @@ const uint8_t expectedVersionPatch = 2;
 int main(int argc, char *argv[]) {
   printf(" ~* ping360-bootloader *~\n");
 
-  if (argc < 3 || argc > 3) {
-    printf("usage: ping360-bootloader <path to port> <path to binary hex file>\n");
-    printf("ex: ping360-bootloader /dev/ttyUSB0 UWU_production.hex\n");
+  if (argc < 3 || argc > 4) {
+    printf("usage: ping360-bootloader <path to port> <path to binary hex file> [--bootloader]\n");
+    printf("ex: ping360-bootloader /dev/ttyUSB0 UWU_production.hex --bootloader\n");
     return 1;
   }
 
   const char *portFileName     = argv[1];
   const char *firmwareFileName = argv[2];
 
+  // send the main application firmware to the bootloader
+  if (argc == 4) {
+    if (strcmp(argv[3], "--bootloader") != 0) {
+      printf("unrecognized argument: %s", argv[3]);
+      return 1;
+    } else {
+      printf("\nopen port %s...", portFileName);
+
+      if (port_open(portFileName) && port_set_baudrate(B115200)) {
+        printf("ok\n");
+      } else {
+        printf("\nerror opening device port: %s\n", portFileName);
+        return 1;
+      }
+
+      printf("\nsend device to bootloader...\n");
+      application_goto_bootloader();
+      usleep(200000);
+      port_close();
+      usleep(200000);
+    }
+  }
+
   if (!strstr(firmwareFileName, ".hex")) {
     printf("error, firmware hex file expected (.hex extension required): %s\n", firmwareFileName);
-    return 1;
-  }
-
-  printf("\nloading application from %s...", firmwareFileName);
-
-  if (pic_hex_extract_application(firmwareFileName)) {
-    printf("ok\n");
-  } else {
-    printf("\nerror extracting application from hex file: %s\n", firmwareFileName);
-    return 1;
-  }
-
-  printf("\nloading configuration from %s...", firmwareFileName);
-
-  // todo fail if doesn't exist
-  if (pic_hex_extract_configuration(firmwareFileName)) {
-    printf("ok\n");
-  } else {
-    printf("\nerror extracting configuration from hex file: %s\n", firmwareFileName);
     return 1;
   }
 
@@ -84,6 +88,25 @@ int main(int argc, char *argv[]) {
 
   } else {
     printf("error fetching version\n");
+    return 1;
+  }
+
+  printf("\nloading application from %s...", firmwareFileName);
+
+  if (pic_hex_extract_application(firmwareFileName)) {
+    printf("ok\n");
+  } else {
+    printf("\nerror extracting application from hex file: %s\n", firmwareFileName);
+    return 1;
+  }
+
+  printf("\nloading configuration from %s...", firmwareFileName);
+
+  // todo fail if doesn't exist
+  if (pic_hex_extract_configuration(firmwareFileName)) {
+    printf("ok\n");
+  } else {
+    printf("\nerror extracting configuration from hex file: %s\n", firmwareFileName);
     return 1;
   }
 
