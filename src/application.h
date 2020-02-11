@@ -24,6 +24,7 @@ typedef struct {
 bool application_get_protocol_version(application_protocol_version_t *protocol_version);
 bool application_get_device_information(application_device_information_t *device_information);
 bool application_request_angle(uint16_t angle);
+bool application_goto_bootloader();
 
 #ifdef __cplusplus
 }

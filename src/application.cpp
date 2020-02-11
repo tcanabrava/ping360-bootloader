@@ -103,3 +103,17 @@ extern "C" bool application_request_angle(uint16_t angle) {
 
   return true;
 }
+
+extern "C" bool application_goto_bootloader() {
+  ping360_reset msg;
+  msg.set_bootloader(1);
+  msg.updateChecksum();
+  uint16_t length = ping_msg_get_length(&msg);
+  port_write((uint8_t *)msg.msgData, length);
+  //ping_message *response = application_wait_message(Ping360Id::DEVICE_DATA, 4000000);
+  //if (!response) {
+  //  return false;
+  //}
+
+  return true;
+}
